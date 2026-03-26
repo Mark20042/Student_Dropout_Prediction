@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import joblib
 import pandas as pd
@@ -6,6 +7,14 @@ import uvicorn
 
 
 app = FastAPI(title="Student Dropout Prediction System")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 model = joblib.load('student_dropout_logistic_model.pkl')
@@ -34,9 +43,13 @@ class StudentRequest(BaseModel):
     Parental_Education: str
     Academic_Trend: float
     Pressure_Index: float
+    
 
-# 4. The Prediction Endpoint
-@app.post("/predict")
+@app.get("/api")
+async def root():
+    return {"message": "Student Dropout API is running!"}
+
+@app.post("/api/predict")
 def predict_dropout(student: StudentRequest):
     try:
         
@@ -77,6 +90,6 @@ def predict_dropout(student: StudentRequest):
     except Exception as e:
         return {"error": str(e), "message": "Check if column names match your training data."}
 
-# 5. Run the server
+
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="127.0.0.1", port=8080)

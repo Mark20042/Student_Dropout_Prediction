@@ -1,0 +1,100 @@
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --bs-font-sans-serif: 'Inter', system-ui, -apple-system, sans-serif;
+  --bs-body-bg: #f1f5f9;
+  --bs-body-color: #1e293b;
+}
+
+body {
+  font-family: var(--bs-font-sans-serif);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* Step nav custom styles */
+.step-nav-item {
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 16px;
+  transition: all 0.2s;
+  cursor: pointer;
+  text-align: left;
+  background: transparent;
+  width: 100%;
+}
+.step-nav-item:hover { background: rgba(255,255,255,0.6); }
+.step-nav-item.active {
+  background: #fff;
+  border-color: #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.step-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.step-circle.active { background: #f59e0b; color: #fff; }
+.step-circle.done { background: #10b981; color: #fff; }
+.step-circle.pending { background: #e2e8f0; color: #94a3b8; }
+
+/* Toggle buttons */
+.toggle-btn {
+  flex: 1;
+  height: 44px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  background: #fff;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.toggle-btn:hover { border-color: #93c5fd; background: #eff6ff; }
+.toggle-btn.selected {
+  background: #0284c7;
+  color: #fff;
+  border-color: #0284c7;
+  box-shadow: 0 1px 4px rgba(2,132,199,0.3);
+}
+
+/* Board card */
+.board-card {
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05);
+  border: 1px solid #e2e8f0;
+}
+
+/* Stress slider */
+input[type="range"] { accent-color: #0ea5e9; }
+
+/* Form labels */
+.form-label {
+  font-weight: 600;
+  font-size: 14px;
+  color: #475569;
+  margin-bottom: 6px;
+}
+
+/* Hint text */
+.field-hint {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 4px;
+}
