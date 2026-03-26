@@ -1,4 +1,6 @@
+import { useEffect, useRef } from "react";
 import { Card, Badge, ProgressBar } from "react-bootstrap";
+import lottie from "lottie-web";
 import type { StudentFormData, PredictionResult } from "../types";
 
 interface Props {
@@ -10,13 +12,13 @@ const Row = ({ label, value }: { label: string; value: string | number }) => {
   const empty = value === "" || value === 0;
   return (
     <div
-      className="d-flex justify-content-between align-items-center py-0"
-      style={{ fontSize: 12 }}
+      className="d-flex justify-content-between align-items-center py-1"
+      style={{ fontSize: 13 }}
     >
       <span style={{ color: "#94a3b8" }}>{label}</span>
       <span
         className="fw-semibold"
-        style={{ color: empty ? "#cbd5e1" : "#334155" }}
+        style={{ color: empty ? "#cbd5e1" : "#1e293b", fontSize: 14 }}
       >
         {empty ? "—" : value}
       </span>
@@ -25,11 +27,11 @@ const Row = ({ label, value }: { label: string; value: string | number }) => {
 };
 
 const Heading = ({ icon, title }: { icon: string; title: string }) => (
-  <div className="d-flex align-items-center gap-2 pt-2 pb-0">
+  <div className="d-flex align-items-center gap-2 pt-3 pb-1">
     <span style={{ fontSize: 13 }}>{icon}</span>
     <span
       className="text-uppercase fw-bold"
-      style={{ fontSize: 9, letterSpacing: 1.5, color: "#94a3b8" }}
+      style={{ fontSize: 11, letterSpacing: 1.5, color: "#64748b" }}
     >
       {title}
     </span>
@@ -57,6 +59,24 @@ const riskMap = {
   },
 };
 
+const FunLottie = () => {
+  const lottieRef = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    if (!lottieRef.current) return;
+    const anim = lottie.loadAnimation({
+      container: lottieRef.current,
+      renderer: "svg",
+      loop: true,
+      autoplay: true,
+      path: "/fun.json",
+    });
+    return () => anim.destroy();
+  }, []);
+
+  return <div ref={lottieRef} style={{ width: 140, height: 140, margin: "0 auto" }} />;
+};
+
 const Preview = ({ formData, result }: Props) => {
   const key = result?.risk_level.includes("LOW")
     ? "LOW"
@@ -79,10 +99,10 @@ const Preview = ({ formData, result }: Props) => {
           📋
         </div>
         <div>
-          <div className="fw-bold" style={{ fontSize: 15 }}>
+          <div className="fw-bold" style={{ fontSize: 16, color: "#1e293b" }}>
             Live Preview
           </div>
-          <div style={{ fontSize: 12, color: "#94a3b8" }}>
+          <div style={{ fontSize: 13, color: "#64748b", fontWeight: 500 }}>
             Updates as you type
           </div>
         </div>
@@ -112,8 +132,7 @@ const Preview = ({ formData, result }: Props) => {
                     Risk Assessment
                   </div>
                   <div
-                    className="fw-bold"
-                    style={{ fontSize: 24, color: cfg.textColor }}
+                    style={{ fontSize: 28, color: cfg.textColor, lineHeight: 1.1 }}
                   >
                     {result.probability}
                   </div>
@@ -135,10 +154,10 @@ const Preview = ({ formData, result }: Props) => {
                 <span>💡</span>
                 <span
                   style={{
-                    fontSize: 11,
+                    fontSize: 13,
                     fontWeight: 600,
-                    color: "#475569",
-                    lineHeight: 1.4,
+                    color: "#334155",
+                    lineHeight: 1.5,
                   }}
                 >
                   {result.action_plan}
@@ -152,14 +171,14 @@ const Preview = ({ formData, result }: Props) => {
             style={{ borderRadius: 14, border: "2px dashed #e2e8f0" }}
           >
             <Card.Body className="py-3">
-              <div style={{ fontSize: 24 }}>🎯</div>
+              <FunLottie />
               <div
                 className="fw-bold"
                 style={{ color: "#475569", fontSize: 13 }}
               >
                 Waiting for Data
               </div>
-              <div style={{ fontSize: 11, color: "#94a3b8" }}>
+              <div style={{ fontSize: 13, color: "#64748b", fontWeight: 500 }}>
                 Submit to get AI prediction
               </div>
             </Card.Body>
@@ -176,7 +195,7 @@ const Preview = ({ formData, result }: Props) => {
         <Row label="Scholarship" value={formData.Scholarship} />
         <Row label="Parental Education" value={formData.Parental_Education} />
 
-        <hr className="my-1" style={{ borderColor: "#f1f5f9" }} />
+        <hr className="my-2" style={{ borderColor: "#e2e8f0" }} />
 
         <Heading icon="📚" title="Academic" />
         <Row label="Department" value={formData.Department} />
@@ -185,7 +204,7 @@ const Preview = ({ formData, result }: Props) => {
         <Row label="Semester GPA" value={formData.Semester_GPA} />
         <Row label="CGPA" value={formData.CGPA} />
 
-        <hr className="my-1" style={{ borderColor: "#f1f5f9" }} />
+        <hr className="my-2" style={{ borderColor: "#e2e8f0" }} />
 
         <Heading icon="⏰" title="Lifestyle" />
         <Row label="Study Hours/Day" value={formData.Study_Hours_per_Day} />
@@ -201,7 +220,7 @@ const Preview = ({ formData, result }: Props) => {
         />
         <Row label="Stress Index" value={formData.Stress_Index} />
 
-        <hr className="my-1" style={{ borderColor: "#f1f5f9" }} />
+        <hr className="my-2" style={{ borderColor: "#e2e8f0" }} />
 
         <Heading icon="🧮" title="Computed" />
         <Row label="Academic Trend" value={formData.Academic_Trend} />

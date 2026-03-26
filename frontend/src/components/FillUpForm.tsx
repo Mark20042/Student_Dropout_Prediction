@@ -6,7 +6,6 @@ import Step2Academic from "./FormSteps/Step2Academic";
 import Step3Lifestyle from "./FormSteps/Step3Lifestyle";
 import Step4Computed from "./FormSteps/Step4Computed";
 import { predictDropout } from "../api";
-import { FaGraduationCap } from "react-icons/fa";
 import { Sparkles } from "lucide-react";
 
 interface Props {
@@ -45,9 +44,6 @@ const FillUpForm = ({ formData, setFormData, onResult, step, setStep, steps }: P
       {/* Mobile stepper */}
       <div className="d-lg-none p-4 border-bottom">
         <div className="d-flex align-items-center gap-2 mb-3">
-          <div className="d-flex align-items-center justify-content-center rounded-3" style={{ width: 36, height: 36, background: "linear-gradient(135deg, #0ea5e9, #6366f1)", color: "#fff" }}>
-            <FaGraduationCap size={16} />
-          </div>
           <span className="fw-bold fs-6">Predictor</span>
         </div>
         <div className="d-flex gap-1">
@@ -59,9 +55,6 @@ const FillUpForm = ({ formData, setFormData, onResult, step, setStep, steps }: P
 
       {/* Header */}
       <div className="px-4 px-lg-5 pt-3 pt-lg-4 pb-2">
-        <div className="d-flex align-items-center justify-content-center rounded-3 mb-3" style={{ width: 44, height: 44, background: "#f59e0b", color: "#fff" }}>
-          <FaGraduationCap size={20} />
-        </div>
         <p className="fw-semibold mb-1" style={{ fontSize: 14, color: "#94a3b8" }}>
           Step {step + 1}/{steps.length}
         </p>
@@ -105,11 +98,10 @@ const FillUpForm = ({ formData, setFormData, onResult, step, setStep, steps }: P
           </Button>
         ) : (
           <Button
-            variant="success"
             size="lg"
             onClick={submit}
             disabled={loading}
-            className="px-4 d-flex align-items-center justify-content-center gap-2"
+            className="btn-predict-orange px-4 d-flex align-items-center justify-content-center gap-2"
           >
             {loading ? <><Spinner size="sm" /> Analyzing…</> : <><Sparkles size={18} /> Get Prediction</>}
           </Button>

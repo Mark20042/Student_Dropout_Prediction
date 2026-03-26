@@ -1,9 +1,10 @@
 import { useState } from "react";
 import FillUpForm from "./components/FillUpForm";
 import Preview from "./components/Preview";
+import WelcomeModal from "./components/WelcomeModal";
+import PredictionModal from "./components/PredictionModal";
 import { INITIAL_FORM_DATA } from "./types";
 import type { StudentFormData, PredictionResult } from "./types";
-import { FaGraduationCap } from "react-icons/fa";
 
 const STEPS = [
   {
@@ -31,15 +32,20 @@ const App = () => {
   const [result, setResult] = useState<PredictionResult | null>(null);
   const [step, setStep] = useState(0);
   const [showPreview, setShowPreview] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(true);
+  const [showPrediction, setShowPrediction] = useState(false);
 
   return (
     <div
       className="min-vh-100 d-flex align-items-center justify-content-center p-3 p-md-5"
       style={{ background: "#f1f5f9" }}
     >
+      {showWelcome && (
+        <WelcomeModal onClose={() => setShowWelcome(false)} />
+      )}
       <div
         className="board-card bg-white d-flex w-100"
-        style={{ maxWidth: 1500, minHeight: 750 }}
+        style={{ maxWidth: 1800, height: "92vh", maxHeight: 850, minHeight: 600 }}
       >
         <div
           className="d-none d-lg-flex flex-column p-4 pt-5"
@@ -51,18 +57,6 @@ const App = () => {
           }}
         >
           <div className="d-flex align-items-center gap-3 px-3 mb-4">
-            <div
-              className="d-flex align-items-center justify-content-center rounded-3"
-              style={{
-                width: 42,
-                height: 42,
-                background: "linear-gradient(135deg, #0ea5e9, #6366f1)",
-                color: "#fff",
-                boxShadow: "0 4px 12px rgba(99,102,241,0.3)",
-              }}
-            >
-              <FaGraduationCap size={20} />
-            </div>
             <span className="fw-bold fs-5" style={{ color: "#1e293b" }}>
               AI Student Dropout Predictor
             </span>
@@ -109,11 +103,26 @@ const App = () => {
             })}
           </div>
 
-          <div className="px-3 pb-2">
+          <div className="px-4 pb-4 mt-auto">
             <button
               onClick={() => setShowPreview(!showPreview)}
-              className="btn btn-sm btn-link text-decoration-none p-0"
-              style={{ color: "#94a3b8", fontSize: 13 }}
+              className="d-flex align-items-center justify-content-center gap-2 w-100 border-0"
+              style={{
+                background: showPreview ? "#f8fafc" : "#eff6ff",
+                color: showPreview ? "#64748b" : "#0284c7",
+                padding: "12px",
+                borderRadius: "12px",
+                fontSize: 14,
+                fontWeight: 600,
+                transition: "all 0.2s",
+                boxShadow: showPreview ? "inset 0 2px 4px rgba(0,0,0,0.02)" : "0 2px 8px rgba(2,132,199,0.15)",
+              }}
+              onMouseEnter={(e) => {
+                if (!showPreview) e.currentTarget.style.transform = "translateY(-1px)";
+              }}
+              onMouseLeave={(e) => {
+                if (!showPreview) e.currentTarget.style.transform = "none";
+              }}
             >
               {showPreview ? "← Hide Preview" : "📋 Show Live Preview"}
             </button>
@@ -126,7 +135,7 @@ const App = () => {
             setFormData={setFormData}
             onResult={(r) => {
               setResult(r);
-              setShowPreview(true);
+              setShowPrediction(true);
             }}
             step={step}
             setStep={setStep}
@@ -138,7 +147,7 @@ const App = () => {
           <div
             className="d-none d-xl-flex flex-column"
             style={{
-              width: 360,
+              width: 580,
               borderLeft: "1px solid #e2e8f0",
               background: "#fafbfc",
               flexShrink: 0,
@@ -148,6 +157,12 @@ const App = () => {
           </div>
         )}
       </div>
+      {showPrediction && result && (
+        <PredictionModal
+          result={result}
+          onClose={() => setShowPrediction(false)}
+        />
+      )}
     </div>
   );
 };
